@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h2>Olá, {{ user.username }}!</h2>
+        <p class="text-muted">Aqui estão suas credenciais salvas de forma segura.</p>
+    </div>
+    <div class="col-md-4 text-md-end">
+        <button class="btn btn-primary">+ Nova Credencial</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <div class="card p-3">
+            <div class="d-flex justify-content-between">
+                <h5 class="card-title">Instagram</h5>
+                <span class="badge bg-info text-dark">Social</span>
+            </div>
+            <p class="mb-1 text-muted small">Usuário: @seu_perfil</p>
+            
+            <div class="bg-light p-2 rounded mb-3 border">
+                <small class="d-block text-uppercase fw-bold text-danger" style="font-size: 10px;">Lembrete de Memória:</small>
+                <span>"O nome do meu primeiro cachorro + o ano que mudei de casa"</span>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button class="btn btn-outline-secondary btn-sm">Ver Senha</button>
+            </div>
+        </div>
+    </div>
+    
+    </div>
+{% endblock %}
