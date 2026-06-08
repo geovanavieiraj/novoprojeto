@@ -1,26 +1,22 @@
-from django.shortcuts import render, redirect
-from .models import Credencial, Categoria, LogAcesso # Importando o que está no seu documento
+from django.shortcuts import render
+from .models import Credencial, LogAcesso
+from django.contrib.auth.decorators import login_required
 
-def dashboard(request):
-    # RF06: Lógica para Alerta de Senhas Fracas
+@login_required
+def lista_senhas(request):
+    # RF02: Lista de credenciais do utilizador
     credenciais = Credencial.objects.filter(dono=request.user)
-    alertas = [c for c in credenciais if len(c.senha_exibida) < 8]
+    
+    # RF05: Histórico de acessos recentes
+    logs = LogAcesso.objects.filter(usuario=request.user).order_by('-data_hora')[:5]
+    
+    # RF06: Contador para o Alerta de Senhas Fracas (menos de 8 caracteres)
+    alertas_count = sum(1 for c in credenciais if len(c.senha_exibida) < 8)
     
     context = {
         'credenciais': credenciais,
-        'alertas_count': len(alertas), # RF06
+        'logs': logs,
+        'alertas_count': alertas_count,
+        'total_senhas': credenciais.count(),
     }
     return render(request, 'dashboard.html', context)
-def lista_senhas(request):
-    return render(request, 'lista_senhas.html')
-from django.shortcuts import render
-
-def lista_senhas(request):
-    dados = [
-        {'site': 'Instagram', 'usuario': '@jose', 'dica': 'Nome do cão + 2024'},
-        {'site': 'Netflix', 'usuario': 'jose@email.com', 'dica': 'Série favorita'},
-    ]
-    return render(request, 'lista_senhas.html', {'senhas': dados})
-
-def adicionar_senha(request):
-    return render(request, 'adicionar_senha.html')
